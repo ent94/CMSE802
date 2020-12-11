@@ -1,0 +1,20 @@
+#!/bin/bash --login
+#SBATCH -c 1
+#SBATCH -n 1
+#SBATCH --time=2:00:00
+#SBATCH --mem=2gb
+#SBATCH --array 1-100
+#SBATCH --mail-type=END
+
+#Log a copy of this script in the output file
+cat $0
+
+#Run BruteForce Script on a single value for variabe a
+srun --unbuffered python bruteforce.py ${SLURM_ARRAY_TASK_ID} 
+
+module load powertools
+js -j $SLURM_JOB_ID
+
+echo "Done"
+
+############################
